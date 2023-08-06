@@ -14,6 +14,9 @@ class User(AbstractUser):
 
 class Category(models.Model):
     title = models.CharField(max_length= 100)
+    
+    def __str__(self) -> str:
+        return self.title
 
 class Item(models.Model):
     
@@ -30,11 +33,11 @@ class Item(models.Model):
     
     
     name = models.CharField(max_length= 50)
-    seller_id = models.ForeignKey(User, on_delete=models.CASCADE,related_name='items')
+    seller = models.ForeignKey(User, on_delete=models.CASCADE,related_name='items')
     descripton = models.TextField(null=True)
-    image_url = models.CharField(max_length= 1000, null=True)
-    price = models.DecimalField(max_digits=4, decimal_places=2)
-    category = models.ForeignKey(Category, on_delete=models.PROTECT)
+    image_url = models.CharField(max_length= 1000, null=True,blank=True)
+    price = models.DecimalField(max_digits=6, decimal_places=2)
+    category = models.ForeignKey(Category, on_delete=models.PROTECT,related_name='items')
     condition = models.CharField(max_length= 25, choices=ITEM_CONDITION,default=NEW_ITEM)
     date_posted = models.DateTimeField(auto_now_add=True)
     
